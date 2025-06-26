@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LucidSelect</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 15px;
+      width: 300px;
+      color: #333;
+    }
+    
+    h1 {
+      color: #4285f4;
+      font-size: 18px;
+      margin-top: 0;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+    
+    h1 img {
+      margin-right: 8px;
+      width: 24px;
+      height: 24px;
+    }
+    
+    p {
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 10px 0;
+    }
+    
+    .steps {
+      margin: 15px 0;
+      padding-left: 20px;
+    }
+    
+    .steps li {
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    
+    .api-status {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 13px;
+      background-color: #f5f5f5;
+      border: 1px solid #e0e0e0;
+    }
+    
+    .api-status.error {
+      background-color: #fce8e6;
+      border-color: #f6cbc8;
+      color: #c5221f;
+    }
+    
+    .api-status.success {
+      background-color: #e6f4ea;
+      border-color: #ceead6;
+      color: #137333;
+    }
+    
+    .options-link {
+      display: inline-block;
+      margin-top: 10px;
+      color: #4285f4;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    
+    .options-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1><img src="images/icon48.png" alt="LucidSelect">LucidSelect</h1>
+  
+  <p>Sélectionnez du texte sur n'importe quelle page web et posez une question à ChatGPT.</p>
+  
+  <ol class="steps">
+    <li>Sélectionnez du texte sur une page web</li>
+    <li>Cliquez-droit et choisissez "Question à ChatGPT"</li>
+    <li>Saisissez votre question dans la popup</li>
+    <li>La réponse s'affichera dans une bulle au-dessus du texte sélectionné</li>
+  </ol>
+  
+  <div id="api-status" class="api-status">
+    Vérification de la clé API...
+  </div>
+  
+  <a href="#" id="options-link" class="options-link">Configurer la clé API</a>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
