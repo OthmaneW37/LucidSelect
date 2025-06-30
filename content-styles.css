@@ -1,0 +1,188 @@
+/* content-styles.css - Styles spécifiques pour les éléments injectés dans les pages web */
+
+/* Styles pour les éléments injectés */
+.lucidselect-prompt-popup,
+.lucidselect-tooltip {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: absolute;
+  z-index: 2147483647; /* Valeur maximale pour s'assurer que les éléments sont au-dessus de tout */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: white;
+  animation: lucidselect-fade-in 0.3s ease-out;
+  max-width: 400px;
+  border: 1px solid #e0e0e0;
+}
+
+/* Animation de fondu à l'entrée */
+@keyframes lucidselect-fade-in {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Animation de fondu à la sortie */
+.lucidselect-fade-out {
+  animation: lucidselect-fade-out 0.5s ease-out forwards;
+}
+
+@keyframes lucidselect-fade-out {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-10px); }
+}
+
+/* Styles pour la popup de saisie de question */
+.lucidselect-prompt-popup {
+  width: 350px;
+}
+
+.lucidselect-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #e0e0e0;
+  border-radius: 8px 8px 0 0;
+}
+
+.lucidselect-header span {
+  font-weight: 600;
+  color: #333;
+}
+
+.lucidselect-close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.lucidselect-close-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.lucidselect-content {
+  padding: 15px;
+}
+
+.lucidselect-question {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 14px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.lucidselect-question:focus {
+  outline: none;
+  border-color: #4285f4;
+  box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+}
+
+.lucidselect-submit-btn {
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.lucidselect-submit-btn:hover {
+  background-color: #3367d6;
+}
+
+/* Styles pour la bulle de réponse */
+.lucidselect-tooltip {
+  min-width: 200px;
+  max-width: 500px;
+}
+
+.lucidselect-tooltip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #e0e0e0;
+  border-radius: 8px 8px 0 0;
+}
+
+.lucidselect-tooltip-header span {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+}
+
+.lucidselect-tooltip-content {
+  padding: 15px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* Styles spécifiques pour les différents types de bulles */
+.lucidselect-answer {
+  border-left: 4px solid #4285f4;
+}
+
+.lucidselect-error {
+  border-left: 4px solid #ea4335;
+}
+
+/* Styles pour les liens dans les tooltips d'erreur */
+.lucidselect-error .lucidselect-tooltip-content a {
+  color: #4285f4;
+  text-decoration: underline;
+}
+
+.lucidselect-error .lucidselect-tooltip-content a:hover {
+  color: #3367d6;
+  text-decoration: none;
+}
+
+.lucidselect-error .lucidselect-tooltip-content ul {
+  margin: 5px 0 5px 20px;
+  padding: 0;
+}
+
+.lucidselect-loading {
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  border-left: 4px solid #fbbc05;
+}
+
+/* Spinner de chargement */
+.lucidselect-loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-top: 2px solid #4285f4;
+  border-radius: 50%;
+  margin-right: 10px;
+  animation: lucidselect-spin 1s linear infinite;
+}
+
+@keyframes lucidselect-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

@@ -20,7 +20,18 @@ if (isRestrictedPage) {
       showPromptPopup();
     } else if (request.action === "directQuery") {
       // Pour les requêtes directes (paraphrase, résumé, réponse à une question)
-      selectedText = request.selection;
+      // Si la sélection n'est pas fournie dans le message, utiliser la sélection actuelle
+      if (request.selection) {
+        selectedText = request.selection;
+      } else {
+        const selection = window.getSelection();
+        if (selection && selection.toString().trim() !== "") {
+          selectedText = selection.toString();
+        } else {
+          // Aucune sélection trouvée
+          return;
+        }
+      }
       sendDirectQueryToChatGPT(request.prompt);
     } else if (request.action === "getSelectionAndShowPopup") {
       // Pour le raccourci clavier - récupérer la sélection actuelle

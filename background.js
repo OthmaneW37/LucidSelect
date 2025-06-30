@@ -97,6 +97,12 @@ chrome.commands.onCommand.addListener((command, tab) => {
     chrome.tabs.sendMessage(tab.id, {
       action: "getSelectionAndShowPopup"
     });
+  } else if (command === "answer_selected_question") {
+    // Répondre directement à la question sélectionnée
+    chrome.tabs.sendMessage(tab.id, {
+      action: "directQuery",
+      prompt: "Réponds à cette question"
+    });
   }
 });
 
