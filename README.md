@@ -1,10 +1,14 @@
 📘 LucidSelect
 
+
 LucidSelect is a Chrome extension that lets you select any text on a webpage, ask a contextual question about it, and instantly receive an AI-generated answer—displayed directly above the selected text.
 
 Select. Ask. Understand. Instantly.
 
+
+
 ✨ Key Features
+
 
 🖱️ Right-click menu: Quickly access LucidSelect via context menu on selected text 
 
@@ -15,8 +19,11 @@ Select. Ask. Understand. Instantly.
 🔐 Multiple AI models: Supports OpenAI, Together.ai, Claude, Gemini and other compatible APIs 
 
 ⚙️ Lightweight & smooth UI: Designed to stay out of your way while browsing 
+
+
  
 🆕 New Features
+
 
 📜 Request history: Save your queries and responses for future reference 
 
@@ -34,7 +41,10 @@ Select. Ask. Understand. Instantly.
 
 👷 Web Workers: Intensive processing moved to Web Workers to avoid UI blocking 
 
+
+
 🔧 Tech Stack 
+
 
 JavaScript + Chrome Extension Manifest V3 
 OpenAI, Claude, Gemini, Together.ai APIs 
