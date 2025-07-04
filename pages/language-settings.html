@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paramètres de langue - LucidSelect</title>
+  <link rel="stylesheet" href="../styles/new-features.css">
+</head>
+<body>
+  <div class="language-settings-container">
+    <h1 class="section-title" data-i18n="language_settings.title">Paramètres de langue</h1>
+    <p class="section-description" data-i18n="language_settings.description">Choisissez la langue de l'interface de LucidSelect.</p>
+    
+    <div class="language-selection-container">
+      <label for="language-selector" data-i18n="language_settings.select_language">Sélectionnez votre langue :</label>
+      <select id="language-selector" class="language-selector">
+        <!-- Les options de langue seront ajoutées dynamiquement -->
+      </select>
+    </div>
+    
+    <div class="language-info">
+      <h2 class="section-title" data-i18n="language_settings.current_language">Langue actuelle</h2>
+      <div class="language-details">
+        <p><strong data-i18n="language_settings.language_name">Nom :</strong> <span id="current-language-name">Français</span></p>
+        <p><strong data-i18n="language_settings.language_code">Code :</strong> <span id="current-language-code">fr</span></p>
+      </div>
+    </div>
+    
+    <div class="language-preview">
+      <h2 class="section-title" data-i18n="language_settings.preview">Aperçu</h2>
+      <div class="preview-container">
+        <div class="preview-item">
+          <h3 data-i18n="language_settings.preview_title">Titre d'exemple</h3>
+          <p data-i18n="language_settings.preview_text">Ceci est un exemple de texte qui sera affiché dans la langue sélectionnée.</p>
+          <button class="primary-button" data-i18n="language_settings.preview_button">Bouton d'exemple</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="language-contribution">
+      <h2 class="section-title" data-i18n="language_settings.contribute_title">Contribuer aux traductions</h2>
+      <p data-i18n="language_settings.contribute_text">Vous parlez une langue qui n'est pas encore disponible ? Vous pouvez contribuer en ajoutant une nouvelle traduction ou en améliorant une traduction existante.</p>
+      <a href="https://github.com/votre-repo/LucidSelect/translations" target="_blank" class="secondary-button" data-i18n="language_settings.contribute_button">Contribuer aux traductions</a>
+    </div>
+  </div>
+  
+  <!-- Conteneur pour les notifications -->
+  <div id="notifications-container" class="notifications-container"></div>
+  
+  <!-- Scripts -->
+  <script src="../utils/constants.js"></script>
+  <script src="../utils/i18n.js"></script>
+  <script src="../utils/performance.js"></script>
+  <script src="../ui/notifications.js"></script>
+  <script src="../ui/multilingual-ui.js"></script>
+  <script>
+    // Initialisation de la page
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialiser le gestionnaire de langues
+      const i18nManager = new I18nManager();
+      i18nManager.initialize().then(() => {
+        // Mettre à jour l'interface avec les traductions
+        i18nManager.updateUI();
+        
+        // Remplir le sélecteur de langues
+        const languageSelector = document.getElementById('language-selector');
+        const supportedLanguages = i18nManager.getSupportedLanguages();
+        const currentLanguage = i18nManager.getCurrentLanguage();
+        
+        // Vider le sélecteur
+        languageSelector.innerHTML = '';
+        
+        // Ajouter les options de langue
+        supportedLanguages.forEach(lang => {
+          const option = document.createElement('option');
+          option.value = lang.code;
+          option.textContent = lang.name;
+          option.selected = lang.code === currentLanguage;
+          languageSelector.appendChild(option);
+        });
+        
+        // Afficher les informations sur la langue actuelle
+        const currentLangObj = supportedLanguages.find(lang => lang.code === currentLanguage);
+        document.getElementById('current-language-name').textContent = currentLangObj.name;
+        document.getElementById('current-language-code').textContent = currentLangObj.code;
+        
+        // Gérer le changement de langue
+        languageSelector.addEventListener('change', async (event) => {
+          const newLanguage = event.target.value;
+          await i18nManager.setLanguage(newLanguage);
+          
+          // Mettre à jour l'interface avec les nouvelles traductions
+          i18nManager.updateUI();
+          
+          // Mettre à jour les informations sur la langue actuelle
+          const newLangObj = supportedLanguages.find(lang => lang.code === newLanguage);
+          document.getElementById('current-language-name').textContent = newLangObj.name;
+          document.getElementById('current-language-code').textContent = newLangObj.code;
+          
+          // Afficher une notification
+          const notificationsManager = new NotificationsManager();
+          notificationsManager.initialize();
+          notificationsManager.showSuccess(i18nManager.translate('language_settings.language_changed_success'));
+        });
+      });
+    });
+  </script>
+</body>
+</html>

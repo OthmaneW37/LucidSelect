@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modèles de prompts personnalisés - LucidSelect</title>
+  <link rel="stylesheet" href="../styles/new-features.css">
+</head>
+<body>
+  <div class="prompts-container">
+    <h1 class="section-title" data-i18n="custom_prompts.title">Modèles de prompts personnalisés</h1>
+    <p class="section-description" data-i18n="custom_prompts.description">Créez et gérez vos propres modèles de prompts pour une utilisation rapide.</p>
+    
+    <div class="search-container">
+      <input type="text" id="prompts-search" class="search-input" placeholder="Rechercher dans les modèles..." data-i18n-placeholder="custom_prompts.search_placeholder">
+    </div>
+    
+    <button id="create-prompt-button" class="primary-button" data-i18n="custom_prompts.create_new">
+      Créer un nouveau modèle
+    </button>
+    
+    <div id="prompt-form" class="prompt-form hidden">
+      <h2 id="form-title" data-i18n="custom_prompts.new_prompt">Nouveau modèle de prompt</h2>
+      <input type="hidden" id="prompt-id">
+      
+      <label for="prompt-name" data-i18n="custom_prompts.name_label">Nom du modèle :</label>
+      <input type="text" id="prompt-name" class="form-input" placeholder="Nom descriptif" data-i18n-placeholder="custom_prompts.name_placeholder" required>
+      
+      <label for="prompt-description" data-i18n="custom_prompts.description_label">Description :</label>
+      <input type="text" id="prompt-description" class="form-input" placeholder="Brève description de l'utilité du modèle" data-i18n-placeholder="custom_prompts.description_placeholder">
+      
+      <label for="prompt-text" data-i18n="custom_prompts.prompt_label">Texte du prompt :</label>
+      <textarea id="prompt-text" class="form-textarea" placeholder="Entrez votre modèle de prompt ici. Utilisez {{selection}} pour insérer le texte sélectionné." data-i18n-placeholder="custom_prompts.prompt_placeholder" required></textarea>
+      
+      <div class="button-container">
+        <button id="save-prompt-button" class="primary-button" data-i18n="custom_prompts.save">Enregistrer</button>
+        <button id="cancel-prompt-button" class="secondary-button" data-i18n="custom_prompts.cancel">Annuler</button>
+      </div>
+    </div>
+    
+    <h2 class="section-title" data-i18n="custom_prompts.your_prompts">Vos modèles de prompts</h2>
+    
+    <div id="prompts-list" class="prompts-list">
+      <!-- Les modèles de prompts seront ajoutés ici dynamiquement -->
+      <div class="empty-message" id="empty-prompts-message" data-i18n="custom_prompts.empty_message">
+        Vous n'avez pas encore créé de modèles de prompts personnalisés.
+      </div>
+    </div>
+  </div>
+  
+  <!-- Conteneur pour les notifications -->
+  <div id="notifications-container" class="notifications-container"></div>
+  
+  <!-- Templates pour les éléments dynamiques -->
+  <template id="prompt-item-template">
+    <div class="prompt-item" data-id="">
+      <div class="prompt-header">
+        <h3 class="prompt-name"></h3>
+        <div class="prompt-actions">
+          <button class="icon-button edit-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+            </svg>
+          </button>
+          <button class="icon-button delete-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+              <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <p class="prompt-description"></p>
+      <pre class="prompt-preview"></pre>
+    </div>
+  </template>
+  
+  <!-- Scripts -->
+  <script src="../utils/constants.js"></script>
+  <script src="../utils/custom-prompts.js"></script>
+  <script src="../utils/i18n.js"></script>
+  <script src="../utils/performance.js"></script>
+  <script src="../ui/notifications.js"></script>
+  <script src="../ui/multilingual-ui.js"></script>
+  <script src="../ui/custom-prompts-ui.js"></script>
+  <script>
+    // Initialisation de la page
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialiser le gestionnaire de langues
+      const i18nManager = new I18nManager();
+      i18nManager.initialize().then(() => {
+        // Mettre à jour l'interface avec les traductions
+        i18nManager.updateUI();
+        
+        // Initialiser l'interface des prompts personnalisés
+        const customPromptsUI = new CustomPromptsUI();
+        customPromptsUI.initialize();
+      });
+    });
+  </script>
+</body>
+</html>

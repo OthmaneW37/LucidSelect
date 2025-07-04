@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Historique des requêtes - LucidSelect</title>
+  <link rel="stylesheet" href="../styles/new-features.css">
+</head>
+<body>
+  <div class="history-container">
+    <h1 class="section-title" data-i18n="history.title">Historique des requêtes</h1>
+    <p class="section-description" data-i18n="history.description">Consultez et gérez l'historique de vos requêtes et réponses.</p>
+    
+    <div class="history-toolbar">
+      <div class="search-container">
+        <input type="text" id="history-search" class="search-input" placeholder="Rechercher dans l'historique..." data-i18n-placeholder="history.search_placeholder">
+      </div>
+      <div class="action-buttons">
+        <button id="export-history" class="secondary-button" data-i18n="history.export">
+          Exporter
+        </button>
+        <div id="export-menu" class="export-menu hidden">
+          <button id="export-json" class="export-option" data-i18n="history.export_json">Exporter en JSON</button>
+          <button id="export-csv" class="export-option" data-i18n="history.export_csv">Exporter en CSV</button>
+        </div>
+        <button id="clear-history" class="danger-button" data-i18n="history.clear">
+          Effacer l'historique
+        </button>
+      </div>
+    </div>
+    
+    <div class="history-main-section">
+      <div class="history-list" id="history-list">
+        <!-- Les éléments d'historique seront ajoutés ici dynamiquement -->
+        <div class="empty-message" id="empty-history-message" data-i18n="history.empty_message">
+          Aucun élément dans l'historique.
+        </div>
+      </div>
+      
+      <div class="history-detail-panel" id="history-detail-panel">
+        <!-- Les détails de l'élément sélectionné seront affichés ici -->
+        <div class="empty-message" data-i18n="history.select_item_message">
+          Sélectionnez un élément pour voir les détails.
+        </div>
+      </div>
+    </div>
+    
+    <div class="pagination" id="pagination">
+      <button id="prev-page" class="pagination-button" disabled>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+        </svg>
+      </button>
+      <span class="page-info" id="page-info">Page 1 sur 1</span>
+      <button id="next-page" class="pagination-button" disabled>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  
+  <!-- Conteneur pour les notifications -->
+  <div id="notifications-container" class="notifications-container"></div>
+  
+  <!-- Templates pour les éléments dynamiques -->
+  <template id="history-item-template">
+    <div class="history-item" data-id="">
+      <div class="history-item-header">
+        <h3 class="history-item-title"></h3>
+        <span class="history-item-timestamp"></span>
+      </div>
+      <span class="history-item-type"></span>
+    </div>
+  </template>
+  
+  <template id="history-detail-template">
+    <div class="detail-section">
+      <h2 class="detail-title"></h2>
+      <div class="detail-type"></div>
+      <div class="detail-date"></div>
+      <div class="detail-model"></div>
+      
+      <div class="detail-content">
+        <div class="detail-prompt-section">
+          <h3 class="detail-label" data-i18n="history.prompt_label">Requête :</h3>
+          <pre class="detail-text prompt-text"></pre>
+        </div>
+        
+        <div class="detail-response-section">
+          <h3 class="detail-label" data-i18n="history.response_label">Réponse :</h3>
+          <pre class="detail-text response-text"></pre>
+        </div>
+      </div>
+      
+      <div class="detail-actions">
+        <button class="primary-button reuse-prompt-button" data-i18n="history.reuse_prompt">Réutiliser cette requête</button>
+        <button class="secondary-button save-as-template-button" data-i18n="history.save_as_template">Enregistrer comme modèle</button>
+      </div>
+    </div>
+  </template>
+  
+  <!-- Scripts -->
+  <script src="../utils/constants.js"></script>
+  <script src="../utils/history.js"></script>
+  <script src="../utils/i18n.js"></script>
+  <script src="../utils/performance.js"></script>
+  <script src="../ui/notifications.js"></script>
+  <script src="../ui/multilingual-ui.js"></script>
+  <script src="../ui/history-ui.js"></script>
+  <script>
+    // Initialisation de la page
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialiser le gestionnaire de langues
+      const i18nManager = new I18nManager();
+      i18nManager.initialize().then(() => {
+        // Mettre à jour l'interface avec les traductions
+        i18nManager.updateUI();
+        
+        // Initialiser l'interface d'historique
+        const historyUI = new HistoryUI();
+        historyUI.initialize();
+      });
+    });
+  </script>
+</body>
+</html>

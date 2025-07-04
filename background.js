@@ -46,6 +46,14 @@ chrome.runtime.onInstalled.addListener(() => {
     title: "Question à propos de la sélection",
     contexts: ["selection"]
   });
+  
+  // Option pour ouvrir un chat avec ChatGPT
+  chrome.contextMenus.create({
+    id: "openChatGPT",
+    parentId: "lucidSelectMenu",
+    title: "Ouvrir un chat avec ChatGPT",
+    contexts: ["selection"]
+  });
 });
 
 // Gestion du clic sur l'élément du menu contextuel
@@ -86,6 +94,15 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
         selection: info.selectionText,
         prompt: "Ceci est un QCM ou un quiz. Identifie la ou les bonnes réponses parmi les options proposées. Explique brièvement ton raisonnement. Si tu n'es pas sûr, indique-le clairement."
       });
+    } else if (info.menuItemId === "openChatGPT") {
+      // Ouvrir un nouvel onglet avec ChatGPT et le texte sélectionné
+      // Utiliser l'encodage Base64 pour éviter les problèmes avec les caractères spéciaux
+      const encodedText = btoa(unescape(encodeURIComponent(info.selectionText)));
+      console.log('Background: Texte sélectionné:', info.selectionText);
+      console.log('Background: Texte encodé en Base64:', encodedText);
+      chrome.tabs.create({
+        url: `https://chat.openai.com/chat?text=${encodedText}`
+      });
     }
   }
 });
@@ -102,6 +119,21 @@ chrome.commands.onCommand.addListener((command, tab) => {
     chrome.tabs.sendMessage(tab.id, {
       action: "directQuery",
       prompt: "Réponds à cette question"
+    });
+  } else if (command === "open_chat_gpt") {
+    // Récupérer la sélection actuelle et ouvrir un chat avec ChatGPT
+    chrome.tabs.sendMessage(tab.id, {
+      action: "getSelection"
+    }, (response) => {
+      if (response && response.text) {
+        // Utiliser l'encodage Base64 pour éviter les problèmes avec les caractères spéciaux
+        const encodedText = btoa(unescape(encodeURIComponent(response.text)));
+        console.log('Background (raccourci): Texte sélectionné:', response.text);
+        console.log('Background (raccourci): Texte encodé en Base64:', encodedText);
+        chrome.tabs.create({
+          url: `https://chat.openai.com/chat?text=${encodedText}`
+        });
+      }
     });
   }
 });

@@ -20,6 +20,10 @@
       "exclude_matches": ["https://chat.openai.com/*"],
       "js": ["content.js"],
       "css": ["content-styles.css"]
+    },
+    {
+      "matches": ["https://chat.openai.com/*"],
+      "js": ["chatgpt-inject.js"]
     }
   ],
   "action": {
@@ -27,7 +31,8 @@
     "default_icon": {
       "16": "images/icon16.png",
       "48": "images/icon48.png",
-      "128": "images/icon128.png"
+      "128": "images/icon128.png",
+      "192": "images/icon128.png"
     }
   },
   "options_ui": {
@@ -37,7 +42,8 @@
   "icons": {
     "16": "images/icon16.png",
     "48": "images/icon48.png",
-    "128": "images/icon128.png"
+    "128": "images/icon128.png",
+    "192": "images/icon128.png"
   },
   "commands": {
     "_execute_action": {
@@ -57,6 +63,12 @@
         "default": "Alt+L"
       },
       "description": "Répondre à la question sélectionnée"
+    },
+    "open_chat_gpt": {
+      "suggested_key": {
+        "default": "Alt+C"
+      },
+      "description": "Ouvrir un chat avec ChatGPT"
     }
   }
 }

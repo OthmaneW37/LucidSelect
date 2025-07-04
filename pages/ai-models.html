@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modèles d'IA - LucidSelect</title>
+  <link rel="stylesheet" href="../styles/new-features.css">
+</head>
+<body>
+  <div class="models-page-container">
+    <h1 class="section-title" data-i18n="ai_models.title">Modèles d'Intelligence Artificielle</h1>
+    <p class="section-description" data-i18n="ai_models.description">Configurez et sélectionnez les modèles d'IA que vous souhaitez utiliser avec LucidSelect.</p>
+    
+    <div class="models-container" id="models-container">
+      <!-- OpenAI -->
+      <div class="model-item" data-model="openai">
+        <div class="model-header">
+          <img src="../images/openai-logo.svg" alt="OpenAI Logo" class="model-logo">
+          <h2 class="model-title">OpenAI</h2>
+        </div>
+        <p class="model-description" data-i18n="ai_models.openai_description">Utilisez les modèles GPT d'OpenAI pour générer des réponses de haute qualité.</p>
+        <ul class="model-features">
+          <li data-i18n="ai_models.openai_feature1">Accès aux modèles GPT-3.5 et GPT-4</li>
+          <li data-i18n="ai_models.openai_feature2">Excellente compréhension du contexte</li>
+          <li data-i18n="ai_models.openai_feature3">Support multilingue avancé</li>
+        </ul>
+        <div class="api-key-form">
+          <label for="openai-api-key" data-i18n="ai_models.api_key_label">Clé API :</label>
+          <div class="input-container">
+            <input type="password" id="openai-api-key" class="form-input" placeholder="sk-..." data-i18n-placeholder="ai_models.api_key_placeholder">
+            <button class="toggle-visibility-button" data-target="openai-api-key">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" class="visibility-icon">
+                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" class="visibility-off-icon hidden">
+                <path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>
+              </svg>
+            </button>
+          </div>
+          <button class="secondary-button save-api-key-button" data-model="openai" data-i18n="ai_models.save_key">Enregistrer la clé</button>
+        </div>
+        <button class="primary-button select-model-button" data-model="openai" data-i18n="ai_models.select_model">Sélectionner ce modèle</button>
+      </div>
+      
+      <!-- Together.ai -->
+      <div class="model-item" data-model="together">
+        <div class="model-header">
+          <img src="../images/together-logo.svg" alt="Together.ai Logo" class="model-logo">
+          <h2 class="model-title">Together.ai</h2>
+        </div>
+        <p class="model-description" data-i18n="ai_models.together_description">Accédez à une variété de modèles open-source via l'API Together.ai.</p>
+        <ul class="model-features">
+          <li data-i18n="ai_models.together_feature1">Large sélection de modèles open-source</li>
+          <li data-i18n="ai_models.together_feature2">Tarification compétitive</li>
+          <li data-i18n="ai_models.together_feature3">Modèles spécialisés disponibles</li>
+        </ul>
+        <div class="api-key-form">
+          <label for="together-api-key" data-i18n="ai_models.api_key_label">Clé API :</label>
+          <div class="input-container">
+            <input type="password" id="together-api-key" class="form-input" placeholder="" data-i18n-placeholder="ai_models.api_key_placeholder">
+            <button class="toggle-visibility-button" data-target="together-api-key">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" class="visibility-icon">
+                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" class="visibility-off-icon hidden">
+                <path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>
+              </svg>
+            </button>
+          </div>
+          <button class="secondary-button save-api-key-button" data-model="together" data-i18n="ai_models.save_key">Enregistrer la clé</button>
+        </div>
+        <button class="primary-button select-model-button" data-model="together" data-i18n="ai_models.select_model">Sélectionner ce modèle</button>
+      </div>
+      
+      <!-- Claude (Anthropic) -->
+      <div class="model-item" data-model="claude">
+        <div class="model-header">
+          <img src="../images/claude-logo.svg" alt="Claude Logo" class="model-logo">
+          <h2 class="model-title">Claude (Anthropic)</h2>
+        </div>
+        <p class="model-description" data-i18n="ai_models.claude_description">Utilisez les modèles Claude d'Anthropic, connus pour leur sécurité et leur précision.</p>
+        <ul class="model-features">
+          <li data-i18n="ai_models.claude_feature1">Excellente compréhension des nuances</li>
+          <li data-i18n="ai_models.claude_feature2">Conçu pour être utile, inoffensif et honnête</li>
+          <li data-i18n="ai_models.claude_feature3">Capacité à traiter de longs contextes</li>
+        </ul>
+        <div class="api-key-form">
+          <label for="claude-api-key" data-i18n="ai_models.api_key_label">Clé API :</label>
+          <div class="input-container">
+            <input type="password" id="claude-api-key" class="form-input" placeholder="sk-ant-..." data-i18n-placeholder="ai_models.api_key_placeholder">
+            <button class="toggle-visibility-button" data-target="claude-api-key">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" class="visibility-icon">
+                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" class="visibility-off-icon hidden">
+                <path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>
+              </svg>
+            </button>
+          </div>
+          <button class="secondary-button save-api-key-button" data-model="claude" data-i18n="ai_models.save_key">Enregistrer la clé</button>
+        </div>
+        <button class="primary-button select-model-button" data-model="claude" data-i18n="ai_models.select_model">Sélectionner ce modèle</button>
+      </div>
+      
+      <!-- Gemini (Google) -->
+      <div class="model-item" data-model="gemini">
+        <div class="model-header">
+          <img src="../images/gemini-logo.svg" alt="Gemini Logo" class="model-logo">
+          <h2 class="model-title">Gemini (Google)</h2>
+        </div>
+        <p class="model-description" data-i18n="ai_models.gemini_description">Utilisez les modèles Gemini de Google, conçus pour exceller dans une variété de tâches.</p>
+        <ul class="model-features">
+          <li data-i18n="ai_models.gemini_feature1">Excellentes capacités de raisonnement</li>
+          <li data-i18n="ai_models.gemini_feature2">Optimisé pour les tâches multimodales</li>
+          <li data-i18n="ai_models.gemini_feature3">Intégration avec l'écosystème Google</li>
+        </ul>
+        <div class="api-key-form">
+          <label for="gemini-api-key" data-i18n="ai_models.api_key_label">Clé API :</label>
+          <div class="input-container">
+            <input type="password" id="gemini-api-key" class="form-input" placeholder="" data-i18n-placeholder="ai_models.api_key_placeholder">
+            <button class="toggle-visibility-button" data-target="gemini-api-key">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" class="visibility-icon">
+                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" class="visibility-off-icon hidden">
+                <path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>
+              </svg>
+            </button>
+          </div>
+          <button class="secondary-button save-api-key-button" data-model="gemini" data-i18n="ai_models.save_key">Enregistrer la clé</button>
+        </div>
+        <button class="primary-button select-model-button" data-model="gemini" data-i18n="ai_models.select_model">Sélectionner ce modèle</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Conteneur pour les notifications -->
+  <div id="notifications-container" class="notifications-container"></div>
+  
+  <!-- Scripts -->
+  <script src="../utils/constants.js"></script>
+  <script src="../utils/ai-models.js"></script>
+  <script src="../utils/i18n.js"></script>
+  <script src="../utils/performance.js"></script>
+  <script src="../ui/notifications.js"></script>
+  <script src="../ui/multilingual-ui.js"></script>
+  <script src="../ui/ai-models-ui.js"></script>
+  <script>
+    // Initialisation de la page
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialiser le gestionnaire de langues
+      const i18nManager = new I18nManager();
+      i18nManager.initialize().then(() => {
+        // Mettre à jour l'interface avec les traductions
+        i18nManager.updateUI();
+        
+        // Initialiser l'interface des modèles d'IA
+        const aiModelsUI = new AIModelsUI();
+        aiModelsUI.initialize();
+      });
+    });
+  </script>
+</body>
+</html>
