@@ -7,22 +7,31 @@ Select. Ask. Understand. Instantly.
 ✨ Key Features
 
 🖱️ Right-click menu: Quickly access LucidSelect via context menu on selected text 
+
 🧠 Smart AI questions: Ask ChatGPT (or other LLMs) about the selected content 
+
 💬 Inline bubble answers: The response appears right on the page, near the text 
+
 🔐 Multiple AI models: Supports OpenAI, Together.ai, Claude, Gemini and other compatible APIs 
+
 ⚙️ Lightweight & smooth UI: Designed to stay out of your way while browsing 
  
 🆕 New Features
 
 📜 Request history: Save your queries and responses for future reference 
+
 📝 Custom prompt templates: Create and save your own prompt templates 
+
 🌐 Multilingual support: Interface available in multiple languages 
+
 🧩 Multiple AI models: Integration with OpenAI, Together.ai, Claude (Anthropic) and Gemini (Google) 
 
 ⚡ Performance Optimizations 
 
 🔄 Lazy loading: Load features only when needed 
+
 📦 Bundle size reduction: Optimized JavaScript files for faster loading 
+
 👷 Web Workers: Intensive processing moved to Web Workers to avoid UI blocking 
 
 🔧 Tech Stack 
