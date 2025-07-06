@@ -5,7 +5,8 @@ export const AI_MODELS = {
   OPENAI: 'openai',
   TOGETHER: 'together',
   CLAUDE: 'claude',
-  GEMINI: 'gemini'
+  GEMINI: 'gemini',
+  CUSTOM: 'custom' // Pour les modèles personnalisés ajoutés par l'utilisateur
 };
 
 // Endpoints des API
@@ -61,7 +62,26 @@ export const TRANSLATIONS = {
     settings: 'Paramètres',
     language: 'Langue',
     aiModel: 'Modèle d\'IA',
-    apiKeys: 'Clés API'
+    apiKeys: 'Clés API',
+    // Modèles personnalisés
+    add_custom_model: 'Ajouter un modèle personnalisé',
+    edit_model: 'Modifier ce modèle',
+    delete_model: 'Supprimer ce modèle',
+    model_name: 'Nom du modèle',
+    model_description: 'Description',
+    model_features: 'Caractéristiques',
+    api_endpoint: 'Point de terminaison API',
+    api_key_label_name: 'Libellé de la clé API',
+    request_template: 'Modèle de requête (JSON)',
+    response_path: 'Chemin de la réponse',
+    logo_url: 'URL du logo',
+    edit_custom_model: 'Modifier le modèle personnalisé',
+    confirm_delete: 'Confirmer la suppression',
+    confirm_delete_message: 'Êtes-vous sûr de vouloir supprimer ce modèle personnalisé ?',
+    delete: 'Supprimer',
+    custom_model_added: 'Modèle personnalisé ajouté avec succès',
+    custom_model_updated: 'Modèle personnalisé mis à jour avec succès',
+    custom_model_deleted: 'Modèle personnalisé supprimé avec succès'
   },
   [SUPPORTED_LANGUAGES.EN]: {
     answerQuestion: 'Answer selected question',
@@ -92,7 +112,26 @@ export const TRANSLATIONS = {
     settings: 'Settings',
     language: 'Language',
     aiModel: 'AI Model',
-    apiKeys: 'API Keys'
+    apiKeys: 'API Keys',
+    // Custom models
+    add_custom_model: 'Add custom model',
+    edit_model: 'Edit this model',
+    delete_model: 'Delete this model',
+    model_name: 'Model name',
+    model_description: 'Description',
+    model_features: 'Features',
+    api_endpoint: 'API endpoint',
+    api_key_label_name: 'API key label',
+    request_template: 'Request template (JSON)',
+    response_path: 'Response path',
+    logo_url: 'Logo URL',
+    edit_custom_model: 'Edit custom model',
+    confirm_delete: 'Confirm deletion',
+    confirm_delete_message: 'Are you sure you want to delete this custom model?',
+    delete: 'Delete',
+    custom_model_added: 'Custom model added successfully',
+    custom_model_updated: 'Custom model updated successfully',
+    custom_model_deleted: 'Custom model deleted successfully'
   }
   // Autres langues à ajouter
 };
@@ -130,7 +169,8 @@ export const STORAGE_KEYS = {
   SELECTED_API: 'selected_api',
   LANGUAGE: 'language',
   CUSTOM_PROMPTS: 'custom_prompts',
-  HISTORY: 'query_history'
+  HISTORY: 'query_history',
+  CUSTOM_MODELS: 'custom_models' // Pour stocker les modèles personnalisés
 };
 
 // Nombre maximum d'éléments d'historique à conserver

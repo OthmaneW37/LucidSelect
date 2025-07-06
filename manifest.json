@@ -9,7 +9,9 @@
   ],
   "host_permissions": [
     "https://api.openai.com/*",
-    "https://api.together.xyz/*"
+    "https://api.together.xyz/*",
+    "https://api.anthropic.com/*",
+    "https://generativelanguage.googleapis.com/*"
   ],
   "background": {
     "service_worker": "background.js"

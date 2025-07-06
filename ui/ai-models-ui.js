@@ -1,6 +1,6 @@
 // ai-models-ui.js - Interface utilisateur pour gérer les modèles d'IA
 
-import { getApiKey, setApiKey, getSelectedModel, setSelectedModel, getAvailableModels } from '../utils/ai-models.js';
+import { getApiKey, setApiKey, getSelectedModel, setSelectedModel, getAllModels, getCustomModels, saveCustomModel, deleteCustomModel } from '../utils/ai-models.js';
 import { AI_MODELS } from '../utils/constants.js';
 import multilingualUI from './multilingual-ui.js';
 
@@ -31,8 +31,8 @@ class AIModelsUI {
       return;
     }
     
-    // Charger les modèles disponibles
-    this.availableModels = await getAvailableModels();
+    // Charger les modèles disponibles (prédéfinis et personnalisés)
+    this.availableModels = await getAllModels();
     
     // Charger le modèle sélectionné
     this.selectedModel = await getSelectedModel();
@@ -45,6 +45,14 @@ class AIModelsUI {
     
     // Écouter les changements de langue
     document.addEventListener('languageChanged', () => this.updateUITranslations());
+    
+    // Écouter les changements de modèles personnalisés
+    document.addEventListener('customModelChanged', async () => {
+      // Recharger les modèles
+      this.availableModels = await getAllModels();
+      // Mettre à jour l'interface
+      this.renderModels();
+    });
   }
 
   /**
@@ -78,13 +86,30 @@ class AIModelsUI {
     // Vider le conteneur des modèles
     this.modelsContainer.innerHTML = '';
     
-    // Créer un élément pour chaque modèle
-    Object.entries(AI_MODELS).forEach(([modelId, modelInfo]) => {
+    // Ajouter le bouton pour ajouter un nouveau modèle
+    const addModelButton = document.createElement('button');
+    addModelButton.className = 'add-model-button';
+    addModelButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>';
+    addModelButton.setAttribute('data-i18n-title', 'ai_models.add_custom_model');
+    addModelButton.title = multilingualUI.translate('ai_models.add_custom_model') || 'Ajouter un modèle personnalisé';
+    addModelButton.addEventListener('click', () => this.showAddModelForm());
+    
+    this.modelsContainer.appendChild(addModelButton);
+    
+    // Créer un élément pour chaque modèle disponible
+    Object.values(this.availableModels).forEach(model => {
+      // Ignorer le type CUSTOM qui est juste un marqueur
+      if (model.id === AI_MODELS.CUSTOM) return;
+      
       const modelElement = document.createElement('div');
       modelElement.className = 'model-item';
-      modelElement.dataset.id = modelId;
+      modelElement.dataset.id = model.id;
       
-      if (modelId === this.selectedModel) {
+      if (model.type === 'custom') {
+        modelElement.classList.add('custom-model');
+      }
+      
+      if (model.id === this.selectedModel) {
         modelElement.classList.add('selected');
       }
       
@@ -93,39 +118,88 @@ class AIModelsUI {
       
       const modelTitle = document.createElement('h3');
       modelTitle.className = 'model-title';
-      modelTitle.textContent = modelInfo.name;
+      modelTitle.textContent = model.name;
       
       const modelLogo = document.createElement('img');
       modelLogo.className = 'model-logo';
-      modelLogo.src = modelInfo.logo || 'images/ai-default.svg';
-      modelLogo.alt = `${modelInfo.name} logo`;
+      modelLogo.src = model.logo || 'images/ai-default.svg';
+      modelLogo.alt = `${model.name} logo`;
       
       modelHeader.appendChild(modelLogo);
       modelHeader.appendChild(modelTitle);
       
+      // Ajouter des boutons d'édition et de suppression pour les modèles personnalisés
+      if (model.type === 'custom') {
+        const actionsContainer = document.createElement('div');
+        actionsContainer.className = 'model-actions';
+        
+        const editButton = document.createElement('button');
+        editButton.className = 'edit-model-button';
+        editButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>';
+        editButton.setAttribute('data-i18n-title', 'ai_models.edit_model');
+        editButton.title = multilingualUI.translate('ai_models.edit_model') || 'Modifier ce modèle';
+        editButton.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.showEditModelForm(model.id);
+        });
+        
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'delete-model-button';
+        deleteButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>';
+        deleteButton.setAttribute('data-i18n-title', 'ai_models.delete_model');
+        deleteButton.title = multilingualUI.translate('ai_models.delete_model') || 'Supprimer ce modèle';
+        deleteButton.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.confirmDeleteModel(model.id);
+        });
+        
+        actionsContainer.appendChild(editButton);
+        actionsContainer.appendChild(deleteButton);
+        modelHeader.appendChild(actionsContainer);
+      }
+      
       const modelDescription = document.createElement('p');
       modelDescription.className = 'model-description';
-      modelDescription.textContent = multilingualUI.translate(`ai_models.${modelId}.description`);
+      
+      // Utiliser la description du modèle ou une traduction
+      if (model.type === 'custom' && model.description) {
+        modelDescription.textContent = model.description;
+      } else {
+        modelDescription.textContent = multilingualUI.translate(`ai_models.${model.id}.description`) || 
+          (model.type === 'predefined' ? `Modèle ${model.name}` : 'Modèle personnalisé');
+      }
       
       const modelFeatures = document.createElement('ul');
       modelFeatures.className = 'model-features';
       
       // Ajouter les caractéristiques du modèle
-      modelInfo.features.forEach(feature => {
-        const featureItem = document.createElement('li');
-        featureItem.textContent = multilingualUI.translate(`ai_models.${modelId}.features.${feature}`);
-        modelFeatures.appendChild(featureItem);
-      });
+      if (model.type === 'custom' && model.features) {
+        // Pour les modèles personnalisés, utiliser les caractéristiques définies
+        model.features.forEach(feature => {
+          const featureItem = document.createElement('li');
+          featureItem.textContent = feature;
+          modelFeatures.appendChild(featureItem);
+        });
+      } else if (model.type === 'predefined') {
+        // Pour les modèles prédéfinis, utiliser les traductions
+        const features = ['feature1', 'feature2', 'feature3']; // Caractéristiques par défaut
+        features.forEach(feature => {
+          const featureItem = document.createElement('li');
+          featureItem.textContent = multilingualUI.translate(`ai_models.${model.id}.features.${feature}`) || 
+            `Caractéristique ${feature}`;
+          modelFeatures.appendChild(featureItem);
+        });
+      }
       
       // Créer le formulaire d'API key
       const apiKeyForm = document.createElement('div');
       apiKeyForm.className = 'api-key-form';
       
-      const apiKeyLabel = multilingualUI.createTranslatedElement('label', `ai_models.${modelId}.api_key_label`, { for: `${modelId}-api-key` });
+      const apiKeyLabel = multilingualUI.createTranslatedElement('label', `ai_models.${model.id}.api_key_label`, { for: `${model.id}-api-key` });
       
       const apiKeyInput = document.createElement('input');
       apiKeyInput.type = 'password';
-      apiKeyInput.id = `${modelId}-api-key`;
+      apiKeyInput.id = `${model.id}-api-key`;
       apiKeyInput.className = 'api-key-input';
       apiKeyInput.setAttribute('data-i18n-placeholder', 'ai_models.api_key_placeholder');
       apiKeyInput.placeholder = multilingualUI.translate('ai_models.api_key_placeholder');
@@ -154,10 +228,10 @@ class AIModelsUI {
       // Créer le bouton de sélection
       const selectButton = document.createElement('button');
       selectButton.className = 'select-model-button';
-      selectButton.setAttribute('data-i18n', modelId === this.selectedModel ? 'ai_models.selected' : 'ai_models.select');
-      selectButton.textContent = multilingualUI.translate(modelId === this.selectedModel ? 'ai_models.selected' : 'ai_models.select');
+      selectButton.setAttribute('data-i18n', model.id === this.selectedModel ? 'ai_models.selected' : 'ai_models.select');
+      selectButton.textContent = multilingualUI.translate(model.id === this.selectedModel ? 'ai_models.selected' : 'ai_models.select');
       
-      if (modelId === this.selectedModel) {
+      if (model.id === this.selectedModel) {
         selectButton.disabled = true;
       }
       
@@ -170,13 +244,294 @@ class AIModelsUI {
       
       // Ajouter les écouteurs d'événements
       toggleVisibilityButton.addEventListener('click', () => this.toggleApiKeyVisibility(apiKeyInput, toggleVisibilityButton));
-      saveApiKeyButton.addEventListener('click', () => this.saveApiKey(modelId, apiKeyInput.value));
-      selectButton.addEventListener('click', () => this.selectModel(modelId));
+      saveApiKeyButton.addEventListener('click', () => this.saveApiKey(model.id, apiKeyInput.value));
+      selectButton.addEventListener('click', () => this.selectModel(model.id));
       
       // Charger la clé API existante
-      this.loadApiKey(modelId, apiKeyInput);
+      this.loadApiKey(model.id, apiKeyInput);
       
       this.modelsContainer.appendChild(modelElement);
+    });
+
+    // Ajouter un bouton pour créer un nouveau modèle personnalisé
+    const addModelButton = document.createElement('button');
+    addModelButton.className = 'add-model-button';
+    addModelButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg> <span data-i18n="ai_models.add_custom_model">Ajouter un modèle personnalisé</span>';
+    addModelButton.addEventListener('click', () => this.showAddModelForm());
+    this.modelsContainer.appendChild(addModelButton);
+  }
+
+  /**
+   * Affiche le formulaire pour ajouter un nouveau modèle personnalisé
+   */
+  showAddModelForm() {
+    // Créer un overlay pour le formulaire
+    const overlay = document.createElement('div');
+    overlay.className = 'model-form-overlay';
+    
+    // Créer le formulaire
+    const form = document.createElement('form');
+    form.className = 'model-form';
+    form.innerHTML = `
+      <h2 data-i18n="ai_models.add_custom_model">Ajouter un modèle personnalisé</h2>
+      <div class="form-group">
+        <label for="model-name" data-i18n="ai_models.model_name">Nom du modèle</label>
+        <input type="text" id="model-name" required>
+      </div>
+      <div class="form-group">
+        <label for="model-description" data-i18n="ai_models.model_description">Description</label>
+        <textarea id="model-description" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="model-features" data-i18n="ai_models.model_features">Caractéristiques (une par ligne)</label>
+        <textarea id="model-features" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="model-api-endpoint" data-i18n="ai_models.api_endpoint">Point de terminaison API</label>
+        <input type="text" id="model-api-endpoint" required>
+      </div>
+      <div class="form-group">
+        <label for="model-api-key-label" data-i18n="ai_models.api_key_label_name">Libellé de la clé API</label>
+        <input type="text" id="model-api-key-label" value="Clé API">
+      </div>
+      <div class="form-group">
+        <label for="model-request-template" data-i18n="ai_models.request_template">Modèle de requête (JSON)</label>
+        <textarea id="model-request-template" rows="5" placeholder="{\"prompt\": \"{{prompt}}\", \"max_tokens\": 1000}"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="model-response-path" data-i18n="ai_models.response_path">Chemin de la réponse</label>
+        <input type="text" id="model-response-path" placeholder="choices[0].text">
+      </div>
+      <div class="form-group">
+        <label for="model-logo-url" data-i18n="ai_models.logo_url">URL du logo (optionnel)</label>
+        <input type="text" id="model-logo-url" placeholder="https://example.com/logo.png">
+      </div>
+      <div class="form-actions">
+        <button type="button" class="cancel-button" data-i18n="ai_models.cancel">Annuler</button>
+        <button type="submit" class="save-button" data-i18n="ai_models.save">Enregistrer</button>
+      </div>
+    `;
+    
+    // Ajouter les écouteurs d'événements
+    form.querySelector('.cancel-button').addEventListener('click', () => {
+      document.body.removeChild(overlay);
+    });
+    
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      // Récupérer les valeurs du formulaire
+      const name = form.querySelector('#model-name').value;
+      const description = form.querySelector('#model-description').value;
+      const featuresText = form.querySelector('#model-features').value;
+      const features = featuresText.split('\n').filter(feature => feature.trim() !== '');
+      const apiEndpoint = form.querySelector('#model-api-endpoint').value;
+      const apiKeyLabel = form.querySelector('#model-api-key-label').value;
+      const requestTemplate = form.querySelector('#model-request-template').value;
+      const responsePath = form.querySelector('#model-response-path').value;
+      const logoUrl = form.querySelector('#model-logo-url').value;
+      
+      // Créer l'ID du modèle (basé sur le nom)
+      const modelId = 'custom_' + name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+      
+      // Créer l'objet du modèle
+      const customModel = {
+        id: modelId,
+        name: name,
+        type: 'custom',
+        description: description,
+        features: features,
+        apiEndpoint: apiEndpoint,
+        apiKeyLabel: apiKeyLabel,
+        requestTemplate: requestTemplate,
+        responsePath: responsePath,
+        logoUrl: logoUrl || null
+      };
+      
+      // Enregistrer le modèle personnalisé
+      saveCustomModel(customModel).then(() => {
+        // Fermer le formulaire
+        document.body.removeChild(overlay);
+        
+        // Afficher une notification
+        const notificationManager = new NotificationManager();
+        notificationManager.showNotification(multilingualUI.translate('ai_models.custom_model_added') || 'Modèle personnalisé ajouté avec succès');
+        
+        // Mettre à jour l'interface utilisateur
+        document.dispatchEvent(new CustomEvent('customModelChanged'));
+      });
+    });
+    
+    overlay.appendChild(form);
+    document.body.appendChild(overlay);
+    
+    // Traduire les éléments du formulaire
+    multilingualUI.translateElements(form.querySelectorAll('[data-i18n]'));
+  }
+
+  /**
+   * Affiche le formulaire pour éditer un modèle personnalisé existant
+   * @param {string} modelId - L'ID du modèle à éditer
+   */
+  showEditModelForm(modelId) {
+    // Récupérer le modèle personnalisé
+    getCustomModel(modelId).then(model => {
+      if (!model) {
+        console.error(`Modèle personnalisé non trouvé: ${modelId}`);
+        return;
+      }
+      
+      // Créer un overlay pour le formulaire
+      const overlay = document.createElement('div');
+      overlay.className = 'model-form-overlay';
+      
+      // Créer le formulaire
+      const form = document.createElement('form');
+      form.className = 'model-form';
+      form.innerHTML = `
+        <h2 data-i18n="ai_models.edit_custom_model">Modifier le modèle personnalisé</h2>
+        <div class="form-group">
+          <label for="model-name" data-i18n="ai_models.model_name">Nom du modèle</label>
+          <input type="text" id="model-name" value="${model.name}" required>
+        </div>
+        <div class="form-group">
+          <label for="model-description" data-i18n="ai_models.model_description">Description</label>
+          <textarea id="model-description" rows="3">${model.description || ''}</textarea>
+        </div>
+        <div class="form-group">
+          <label for="model-features" data-i18n="ai_models.model_features">Caractéristiques (une par ligne)</label>
+          <textarea id="model-features" rows="3">${model.features ? model.features.join('\n') : ''}</textarea>
+        </div>
+        <div class="form-group">
+          <label for="model-api-endpoint" data-i18n="ai_models.api_endpoint">Point de terminaison API</label>
+          <input type="text" id="model-api-endpoint" value="${model.apiEndpoint}" required>
+        </div>
+        <div class="form-group">
+          <label for="model-api-key-label" data-i18n="ai_models.api_key_label_name">Libellé de la clé API</label>
+          <input type="text" id="model-api-key-label" value="${model.apiKeyLabel || 'Clé API'}">
+        </div>
+        <div class="form-group">
+          <label for="model-request-template" data-i18n="ai_models.request_template">Modèle de requête (JSON)</label>
+          <textarea id="model-request-template" rows="5">${model.requestTemplate || ''}</textarea>
+        </div>
+        <div class="form-group">
+          <label for="model-response-path" data-i18n="ai_models.response_path">Chemin de la réponse</label>
+          <input type="text" id="model-response-path" value="${model.responsePath || ''}">
+        </div>
+        <div class="form-group">
+          <label for="model-logo-url" data-i18n="ai_models.logo_url">URL du logo (optionnel)</label>
+          <input type="text" id="model-logo-url" value="${model.logoUrl || ''}">
+        </div>
+        <div class="form-actions">
+          <button type="button" class="cancel-button" data-i18n="ai_models.cancel">Annuler</button>
+          <button type="submit" class="save-button" data-i18n="ai_models.save">Enregistrer</button>
+        </div>
+      `;
+      
+      // Ajouter les écouteurs d'événements
+      form.querySelector('.cancel-button').addEventListener('click', () => {
+        document.body.removeChild(overlay);
+      });
+      
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // Récupérer les valeurs du formulaire
+        const name = form.querySelector('#model-name').value;
+        const description = form.querySelector('#model-description').value;
+        const featuresText = form.querySelector('#model-features').value;
+        const features = featuresText.split('\n').filter(feature => feature.trim() !== '');
+        const apiEndpoint = form.querySelector('#model-api-endpoint').value;
+        const apiKeyLabel = form.querySelector('#model-api-key-label').value;
+        const requestTemplate = form.querySelector('#model-request-template').value;
+        const responsePath = form.querySelector('#model-response-path').value;
+        const logoUrl = form.querySelector('#model-logo-url').value;
+        
+        // Mettre à jour l'objet du modèle
+        model.name = name;
+        model.description = description;
+        model.features = features;
+        model.apiEndpoint = apiEndpoint;
+        model.apiKeyLabel = apiKeyLabel;
+        model.requestTemplate = requestTemplate;
+        model.responsePath = responsePath;
+        model.logoUrl = logoUrl || null;
+        
+        // Enregistrer le modèle personnalisé
+        saveCustomModel(model).then(() => {
+          // Fermer le formulaire
+          document.body.removeChild(overlay);
+          
+          // Afficher une notification
+          const notificationManager = new NotificationManager();
+          notificationManager.showNotification(multilingualUI.translate('ai_models.custom_model_updated') || 'Modèle personnalisé mis à jour avec succès');
+          
+          // Mettre à jour l'interface utilisateur
+          document.dispatchEvent(new CustomEvent('customModelChanged'));
+        });
+      });
+      
+      overlay.appendChild(form);
+      document.body.appendChild(overlay);
+      
+      // Traduire les éléments du formulaire
+      multilingualUI.translateElements(form.querySelectorAll('[data-i18n]'));
+    });
+  }
+
+  /**
+   * Affiche une confirmation pour supprimer un modèle personnalisé
+   * @param {string} modelId - L'ID du modèle à supprimer
+   */
+  confirmDeleteModel(modelId) {
+    // Récupérer le modèle personnalisé
+    getCustomModel(modelId).then(model => {
+      if (!model) {
+        console.error(`Modèle personnalisé non trouvé: ${modelId}`);
+        return;
+      }
+      
+      // Créer un overlay pour la confirmation
+      const overlay = document.createElement('div');
+      overlay.className = 'model-form-overlay';
+      
+      // Créer la boîte de dialogue de confirmation
+      const confirmBox = document.createElement('div');
+      confirmBox.className = 'confirm-box';
+      confirmBox.innerHTML = `
+        <h2 data-i18n="ai_models.confirm_delete">Confirmer la suppression</h2>
+        <p data-i18n="ai_models.confirm_delete_message">Êtes-vous sûr de vouloir supprimer le modèle personnalisé "${model.name}" ?</p>
+        <div class="form-actions">
+          <button type="button" class="cancel-button" data-i18n="ai_models.cancel">Annuler</button>
+          <button type="button" class="delete-button" data-i18n="ai_models.delete">Supprimer</button>
+        </div>
+      `;
+      
+      // Ajouter les écouteurs d'événements
+      confirmBox.querySelector('.cancel-button').addEventListener('click', () => {
+        document.body.removeChild(overlay);
+      });
+      
+      confirmBox.querySelector('.delete-button').addEventListener('click', () => {
+        // Supprimer le modèle personnalisé
+        deleteCustomModel(modelId).then(() => {
+          // Fermer la boîte de dialogue
+          document.body.removeChild(overlay);
+          
+          // Afficher une notification
+          const notificationManager = new NotificationManager();
+          notificationManager.showNotification(multilingualUI.translate('ai_models.custom_model_deleted') || 'Modèle personnalisé supprimé avec succès');
+          
+          // Mettre à jour l'interface utilisateur
+          document.dispatchEvent(new CustomEvent('customModelChanged'));
+        });
+      });
+      
+      overlay.appendChild(confirmBox);
+      document.body.appendChild(overlay);
+      
+      // Traduire les éléments de la boîte de dialogue
+      multilingualUI.translateElements(confirmBox.querySelectorAll('[data-i18n]'));
     });
   }
 

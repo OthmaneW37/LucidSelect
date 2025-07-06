@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Modèles d'IA - LucidSelect</title>
-  <link rel="stylesheet" href="../styles/new-features.css">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../styles/dark-mode.css">
+  <link rel="stylesheet" href="../ui/css/custom-models.css">
 </head>
 <body>
   <div class="models-page-container">
@@ -144,8 +146,7 @@
   <script src="../utils/performance.js"></script>
   <script src="../ui/notifications.js"></script>
   <script src="../ui/multilingual-ui.js"></script>
-  <script src="../ui/ai-models-ui.js"></script>
-  <script>
+  <script type="module">
     // Initialisation de la page
     document.addEventListener('DOMContentLoaded', () => {
       // Initialiser le gestionnaire de langues
@@ -155,8 +156,10 @@
         i18nManager.updateUI();
         
         // Initialiser l'interface des modèles d'IA
-        const aiModelsUI = new AIModelsUI();
-        aiModelsUI.initialize();
+        import('../ui/ai-models-ui.js').then((module) => {
+          const aiModelsUI = module.default;
+          aiModelsUI.init(document.getElementById('models-container'));
+        });
       });
     });
   </script>

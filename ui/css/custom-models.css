@@ -1,0 +1,172 @@
+/* Styles pour les modèles personnalisés */
+
+/* Bouton d'ajout de modèle */
+.add-model-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 15px;
+  margin-top: 20px;
+  background-color: #f5f5f5;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-model-button:hover {
+  background-color: #e9e9e9;
+  border-color: #999;
+}
+
+.add-model-button svg {
+  margin-right: 10px;
+  fill: #666;
+}
+
+/* Boutons d'action pour les modèles personnalisés */
+.model-actions {
+  display: flex;
+  margin-left: auto;
+}
+
+.edit-model-button,
+.delete-model-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  margin-left: 5px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.edit-model-button:hover,
+.delete-model-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.edit-model-button svg,
+.delete-model-button svg {
+  fill: #666;
+  transition: fill 0.2s ease;
+}
+
+.edit-model-button:hover svg {
+  fill: #2196F3;
+}
+
+.delete-model-button:hover svg {
+  fill: #F44336;
+}
+
+/* Overlay et formulaire */
+.model-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.model-form,
+.confirm-box {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  width: 500px;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.model-form h2,
+.confirm-box h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #555;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.form-actions button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.cancel-button {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  color: #666;
+  margin-right: 10px;
+}
+
+.save-button {
+  background-color: #2196F3;
+  border: 1px solid #2196F3;
+  color: white;
+}
+
+.delete-button {
+  background-color: #F44336;
+  border: 1px solid #F44336;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #e9e9e9;
+}
+
+.save-button:hover {
+  background-color: #0d8aee;
+}
+
+.delete-button:hover {
+  background-color: #e53935;
+}
+
+/* Boîte de confirmation */
+.confirm-box p {
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
