@@ -1,0 +1,356 @@
+/**
+ * improved-ui.css - Styles améliorés pour l'interface de LucidSelect
+ * Utilise les couleurs bleues du logo pour une expérience visuelle cohérente
+ */
+
+:root {
+  /* Palette de couleurs principales basée sur le bleu du logo */
+  --lucid-blue-primary: #4285f4;    /* Bleu principal */
+  --lucid-blue-dark: #3367d6;       /* Bleu foncé pour hover */
+  --lucid-blue-light: #8ab4f8;      /* Bleu clair pour accents */
+  --lucid-blue-pale: #e8f0fe;       /* Bleu pâle pour backgrounds */
+  
+  /* Couleurs neutres */
+  --lucid-bg-primary: #ffffff;
+  --lucid-bg-secondary: #f5f5f5;
+  --lucid-text-primary: #202124;
+  --lucid-text-secondary: #5f6368;
+  --lucid-border: #dadce0;
+  
+  /* Couleurs sémantiques */
+  --lucid-success: #0f9d58;
+  --lucid-warning: #f4b400;
+  --lucid-error: #d93025;
+  --lucid-info: #4285f4;
+  
+  /* Ombres */
+  --lucid-shadow-sm: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  --lucid-shadow-md: 0 2px 6px rgba(60, 64, 67, 0.3), 0 1px 2px rgba(60, 64, 67, 0.2);
+  --lucid-shadow-lg: 0 4px 8px rgba(60, 64, 67, 0.3), 0 2px 4px rgba(60, 64, 67, 0.2);
+}
+
+/* Styles généraux */
+body {
+  font-family: 'Google Sans', 'Segoe UI', Roboto, Arial, sans-serif;
+  color: var(--lucid-text-primary);
+  background-color: var(--lucid-bg-secondary);
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+}
+
+/* Conteneur principal avec ombre et coins arrondis */
+.container {
+  background-color: var(--lucid-bg-primary);
+  border-radius: 8px;
+  box-shadow: var(--lucid-shadow-md);
+  padding: 24px;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+/* En-têtes */
+h1 {
+  color: var(--lucid-blue-primary);
+  font-size: 24px;
+  font-weight: 500;
+  margin-top: 0;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+}
+
+h1 img {
+  margin-right: 12px;
+  width: 28px;
+  height: 28px;
+}
+
+/* Groupes d'options */
+.option-group {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--lucid-border);
+}
+
+.option-group:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Labels */
+label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--lucid-text-primary);
+}
+
+/* Champs de texte */
+input[type="text"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--lucid-border);
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus {
+  border-color: var(--lucid-blue-primary);
+  box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+  outline: none;
+}
+
+input[type="text"]::placeholder {
+  color: var(--lucid-text-secondary);
+}
+
+/* Groupe de boutons radio avec style moderne */
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.radio-group input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.radio-group label {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  background-color: var(--lucid-bg-secondary);
+  border: 1px solid var(--lucid-border);
+  border-radius: 20px;
+  font-weight: normal;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.radio-group input[type="radio"]:checked + label {
+  background-color: var(--lucid-blue-pale);
+  border-color: var(--lucid-blue-primary);
+  color: var(--lucid-blue-primary);
+  font-weight: 500;
+}
+
+.radio-group label:hover {
+  background-color: var(--lucid-blue-pale);
+}
+
+/* Boutons */
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  font-size: 14px;
+}
+
+#save-btn {
+  background-color: var(--lucid-blue-primary);
+  color: white;
+  box-shadow: var(--lucid-shadow-sm);
+}
+
+#save-btn:hover {
+  background-color: var(--lucid-blue-dark);
+  box-shadow: var(--lucid-shadow-md);
+}
+
+#clear-btn {
+  background-color: white;
+  color: var(--lucid-text-primary);
+  border: 1px solid var(--lucid-border);
+}
+
+#clear-btn:hover {
+  background-color: var(--lucid-bg-secondary);
+}
+
+/* Groupe de boutons */
+.buttons-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+
+/* Texte d'information */
+.info-text {
+  font-size: 13px;
+  color: var(--lucid-text-secondary);
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
+/* Messages de statut */
+.status {
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 16px;
+  font-size: 14px;
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.success {
+  background-color: #e6f4ea;
+  color: var(--lucid-success);
+  border: 1px solid #ceead6;
+}
+
+.error {
+  background-color: #fce8e6;
+  color: var(--lucid-error);
+  border: 1px solid #f6cbc8;
+}
+
+/* Boîtes d'information */
+.info-box {
+  background-color: var(--lucid-blue-pale);
+  border: 1px solid rgba(66, 133, 244, 0.2);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+/* Raccourcis clavier */
+.shortcuts-box {
+  background-color: var(--lucid-bg-secondary);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.shortcut-item {
+  display: flex;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.shortcut-key {
+  background-color: var(--lucid-bg-primary);
+  border: 1px solid var(--lucid-border);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-weight: 500;
+  margin-right: 8px;
+  font-size: 13px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Popup styles */
+.popup-container {
+  width: 320px;
+  padding: 16px;
+}
+
+.steps {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.steps li {
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.steps li::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 6px;
+  width: 16px;
+  height: 16px;
+  background-color: var(--lucid-blue-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+}
+
+.api-status {
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: var(--lucid-bg-secondary);
+  border: 1px solid var(--lucid-border);
+  display: flex;
+  align-items: center;
+}
+
+.api-status::before {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+  background-color: var(--lucid-text-secondary);
+}
+
+.api-status.success::before {
+  background-color: var(--lucid-success);
+}
+
+.api-status.error::before {
+  background-color: var(--lucid-error);
+}
+
+.options-link {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 16px;
+  color: var(--lucid-blue-primary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.options-link:hover {
+  text-decoration: underline;
+}
+
+.options-link::after {
+  content: '→';
+  margin-left: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .container {
+    padding: 16px;
+    margin: 10px;
+  }
+  
+  .radio-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .buttons-group {
+    flex-direction: column;
+  }
+  
+  button {
+    width: 100%;
+  }
+}

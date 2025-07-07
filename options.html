@@ -4,135 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Options LucidSelect</title>
+  <link rel="stylesheet" href="styles/improved-ui.css">
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background-color: #f5f5f5;
-      color: #333;
-    }
-    
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-    }
-    
-    h1 {
-      color: #4285f4;
-      margin-top: 0;
-      font-size: 24px;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 10px;
-    }
-    
-    .form-group {
-      margin-bottom: 20px;
-    }
-    
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-    }
-    
-    input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-    
-    input[type="password"]:focus {
-      outline: none;
-      border-color: #4285f4;
-      box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
-    }
-    
-    .button-group {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-    
-    button {
-      padding: 8px 16px;
-      border: none;
-      border-radius: 4px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-    
-    #save-btn {
-      background-color: #4285f4;
-      color: white;
-    }
-    
-    #save-btn:hover {
-      background-color: #3367d6;
-    }
-    
-    #clear-btn {
-      background-color: #f5f5f5;
-      color: #333;
-      border: 1px solid #ddd;
-    }
-    
-    #clear-btn:hover {
-      background-color: #e8e8e8;
-    }
-    
-    .status {
-      margin-top: 15px;
-      padding: 10px;
-      border-radius: 4px;
-      font-size: 14px;
-      display: none;
-    }
-    
-    .success {
-      background-color: #e6f4ea;
-      color: #137333;
-      border: 1px solid #ceead6;
-    }
-    
-    .error {
-      background-color: #fce8e6;
-      color: #c5221f;
-      border: 1px solid #f6cbc8;
-    }
-    
-    .info-text {
-      font-size: 13px;
-      color: #666;
-      margin-top: 5px;
-      line-height: 1.4;
-    }
+    /* Styles spécifiques à la page d'options qui ne sont pas dans improved-ui.css */
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Options LucidSelect</h1>
+    <h1><img src="images/icon48.png" alt="LucidSelect">Options LucidSelect</h1>
     
     <div class="option-group">
       <label>Choisir l'API à utiliser:</label>
       <div class="radio-group">
         <input type="radio" id="openai-api" name="selected-api" value="openai" checked>
-        <label for="openai-api">OpenAI</label>
+        <label for="openai-api"><img src="images/openai-logo.svg" width="16" height="16" alt="OpenAI"> OpenAI</label>
         
         <input type="radio" id="together-api" name="selected-api" value="together">
-        <label for="together-api">Together.ai</label>
+        <label for="together-api"><img src="images/together-logo.svg" width="16" height="16" alt="Together.ai"> Together.ai</label>
+        
+        <input type="radio" id="claude-api" name="selected-api" value="claude">
+        <label for="claude-api"><img src="images/claude-logo.svg" width="16" height="16" alt="Claude"> Claude (Anthropic)</label>
+        
+        <input type="radio" id="gemini-api" name="selected-api" value="gemini">
+        <label for="gemini-api"><img src="images/gemini-logo.svg" width="16" height="16" alt="Gemini"> Gemini (Google)</label>
       </div>
     </div>
-    
-
     
     <div class="option-group" id="openai-group">
       <label for="api-key">Clé API OpenAI:</label>
@@ -146,6 +42,18 @@
       <p class="info-text">Votre clé API est stockée localement et n'est jamais partagée.</p>
     </div>
     
+    <div class="option-group" id="claude-group" style="display: none;">
+      <label for="claude-key">Clé API Claude (Anthropic):</label>
+      <input type="text" id="claude-key" placeholder="Entrez votre clé API Claude (commence par sk-ant-)">
+      <p class="info-text">Votre clé API est stockée localement et n'est jamais partagée.</p>
+    </div>
+    
+    <div class="option-group" id="gemini-group" style="display: none;">
+      <label for="gemini-key">Clé API Gemini (Google):</label>
+      <input type="text" id="gemini-key" placeholder="Entrez votre clé API Gemini">
+      <p class="info-text">Votre clé API est stockée localement et n'est jamais partagée.</p>
+    </div>
+    
     <div class="buttons-group">
       <button id="save-btn">Enregistrer</button>
       <button id="clear-btn">Effacer</button>
@@ -155,22 +63,32 @@
     
     <div class="option-group">
       <label>Raccourcis clavier:</label>
-      <div style="background-color: #f8f9fa; padding: 10px; border-radius: 4px; border: 1px solid #e0e0e0;">
-        <p style="margin: 5px 0;"><strong>Alt+L</strong> - Répondre à la question sélectionnée</p>
-        <p style="margin: 5px 0;"><strong>Alt+S</strong> - Poser une question sur la sélection</p>
-        <p style="margin: 5px 0;"><strong>Alt+Q</strong> - Ouvrir la popup LucidSelect</p>
+      <div class="shortcuts-box">
+        <div class="shortcut-item">
+          <span class="shortcut-key">Alt+L</span>
+          <span>Répondre à la question sélectionnée</span>
+        </div>
+        <div class="shortcut-item">
+          <span class="shortcut-key">Alt+S</span>
+          <span>Poser une question sur la sélection</span>
+        </div>
+        <div class="shortcut-item">
+          <span class="shortcut-key">Alt+Q</span>
+          <span>Ouvrir la popup LucidSelect</span>
+        </div>
         <p class="info-text">Ces raccourcis peuvent être personnalisés dans les paramètres de Chrome: <br>chrome://extensions/shortcuts</p>
       </div>
     </div>
     
-    <div class="info" style="background-color: #e2f3fd; color: #0c5460; border: 1px solid #bee5eb; padding: 10px; border-radius: 4px; margin-top: 15px; font-size: 14px; line-height: 1.5;">
-      <strong>Note sur les limites de l'API:</strong> Si vous rencontrez des erreurs 429 (Too Many Requests), cela peut être dû à:
+    <div class="info-box">
+      <h3 style="margin-top: 0; color: var(--lucid-blue-primary);">Note sur les limites de l'API</h3>
+      <p>Si vous rencontrez des erreurs 429 (Too Many Requests), cela peut être dû à:</p>
       <ul>
         <li>Un dépassement de votre limite de requêtes par minute</li>
-        <li>Un solde insuffisant sur votre compte OpenAI</li>
+        <li>Un solde insuffisant sur votre compte API</li>
         <li>Un problème avec votre clé API</li>
       </ul>
-      Veuillez vérifier <a href="https://platform.openai.com/account/usage" target="_blank" style="color: #0056b3;">votre utilisation</a> et <a href="https://platform.openai.com/account/billing/overview" target="_blank" style="color: #0056b3;">vos informations de facturation</a> sur le site d'OpenAI.
+      <p>Veuillez vérifier votre utilisation et vos informations de facturation sur le site du fournisseur d'API correspondant.</p>
     </div>
   </div>
   
