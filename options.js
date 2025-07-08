@@ -117,14 +117,14 @@ geminiRadio.addEventListener('change', () => {
 
 // Fonction pour afficher un message de statut
 function showStatus(message, isSuccess = true) {
-  statusElement.textContent = message;
+  statusElement.innerHTML = message;
   statusElement.className = `status ${isSuccess ? 'success' : 'error'}`;
   statusElement.style.display = 'block';
   
-  // Masquer le message après 3 secondes
+  // Masquer le message après 5 secondes pour laisser plus de temps pour lire
   setTimeout(() => {
     statusElement.style.display = 'none';
-  }, 3000);
+  }, 5000);
 }
 
 // Enregistrer les paramètres
