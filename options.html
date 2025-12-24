@@ -1,97 +1,91 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Options LucidSelect</title>
-  <link rel="stylesheet" href="styles/improved-ui.css">
+  <title>LucidSelect - Options</title>
+  <link rel="stylesheet" href="styles.css">
   <style>
-    /* Styles spécifiques à la page d'options qui ne sont pas dans improved-ui.css */
+    body {
+      width: 100%;
+      min-height: 100vh;
+      background-color: var(--background-color);
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0;
+    }
   </style>
 </head>
+
 <body>
   <div class="container">
-    <h1><img src="images/icon48.png" alt="LucidSelect">Options LucidSelect</h1>
-    
-    <div class="option-group">
-      <label>Choisir l'API à utiliser:</label>
-      <div class="radio-group">
-        <input type="radio" id="openai-api" name="selected-api" value="openai" checked>
-        <label for="openai-api"><img src="images/openai-logo.png" width="16" height="16" alt="OpenAI"> OpenAI</label>
-        
-        <input type="radio" id="together-api" name="selected-api" value="together">
-        <label for="together-api"><img src="images/together-logo.png" width="16" height="16" alt="Together.ai"> Together.ai</label>
-        
-        <input type="radio" id="claude-api" name="selected-api" value="claude">
-        <label for="claude-api"><img src="images/claude-logo.png" width="16" height="16" alt="Claude"> Claude (Anthropic)</label>
-        
-        <input type="radio" id="gemini-api" name="selected-api" value="gemini">
-        <label for="gemini-api"><img src="images/gemini-logo.png" width="16" height="16" alt="Gemini"> Gemini (Google)</label>
+    <header style="border-radius: var(--radius-lg); margin-bottom: 24px; box-shadow: var(--shadow-sm);">
+      <h1><img src="images/icon48.png" alt="LucidSelect"> Paramètres</h1>
+    </header>
+
+    <div class="option-card">
+      <div class="option-group">
+        <label>Fournisseur d'IA</label>
+        <div class="radio-group" style="display: flex; gap: 16px; flex-wrap: wrap;">
+          <label style="font-weight: normal; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+            <input type="radio" name="api_provider" value="openai" checked> OpenAI (ChatGPT)
+          </label>
+          <label style="font-weight: normal; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+            <input type="radio" name="api_provider" value="together"> Together.ai
+          </label>
+          <label
+            style="font-weight: normal; cursor: pointer; display: flex; align-items: center; gap: 6px; opacity: 0.6;">
+            <input type="radio" name="api_provider" value="claude" disabled> Claude (Bientôt)
+          </label>
+          <label
+            style="font-weight: normal; cursor: pointer; display: flex; align-items: center; gap: 6px; opacity: 0.6;">
+            <input type="radio" name="api_provider" value="gemini" disabled> Gemini (Bientôt)
+          </label>
+        </div>
       </div>
-    </div>
-    
-    <div class="option-group" id="openai-group">
-      <label for="api-key">Clé API OpenAI:</label>
-      <input type="text" id="api-key" placeholder="Entrez votre clé API OpenAI (commence par sk-)">
-      <p class="info-text">Votre clé API est stockée localement et n'est jamais partagée.</p>
-    </div>
-    
-    <div class="option-group" id="together-group" style="display: none;">
-      <label for="together-key">Clé API Together.ai:</label>
-      <input type="text" id="together-key" placeholder="Entrez votre clé API Together.ai">
-      <p class="info-text">Votre clé API est stockée localement et n'est jamais partagée.</p>
-    </div>
-    
-    <div class="option-group" id="claude-group" style="display: none;">
-      <label for="claude-key">Clé API Claude (Anthropic):</label>
-      <input type="text" id="claude-key" placeholder="Entrez votre clé API Claude (commence par sk-ant-)">
-      <p class="info-text">Votre clé API est stockée localement et n'est jamais partagée.</p>
-    </div>
-    
-    <div class="option-group" id="gemini-group" style="display: none;">
-      <label for="gemini-key">Clé API Gemini (Google):</label>
-      <input type="text" id="gemini-key" placeholder="Entrez votre clé API Gemini">
-      <p class="info-text">Votre clé API est stockée localement et n'est jamais partagée.</p>
-    </div>
-    
-    <div class="buttons-group">
-      <button id="save-btn">Enregistrer</button>
-      <button id="clear-btn">Effacer</button>
-    </div>
-    
-    <div id="status" class="status"></div>
-    
-    <div class="option-group">
-      <label>Raccourcis clavier:</label>
-      <div class="shortcuts-box">
-        <div class="shortcut-item">
-          <span class="shortcut-key">Alt+L</span>
-          <span>Répondre à la question sélectionnée</span>
-        </div>
-        <div class="shortcut-item">
-          <span class="shortcut-key">Alt+S</span>
-          <span>Poser une question sur la sélection</span>
-        </div>
-        <div class="shortcut-item">
-          <span class="shortcut-key">Alt+Q</span>
-          <span>Ouvrir la popup LucidSelect</span>
-        </div>
-        <p class="info-text">Ces raccourcis peuvent être personnalisés dans les paramètres de Chrome: <br>chrome://extensions/shortcuts</p>
+
+      <div class="option-group">
+        <label for="openai-key">Clé API OpenAI</label>
+        <input type="password" id="openai-key" placeholder="sk-..." autocomplete="off">
+        <p class="info-text" style="font-size: 12px; margin-top: 6px; color: var(--text-secondary);">
+          Obtenez votre clé sur <a href="https://platform.openai.com/api-keys" target="_blank"
+            style="color: var(--primary-color);">platform.openai.com</a>
+        </p>
       </div>
+
+      <div class="option-group" id="together-group" style="display: none;">
+        <label for="together-key">Clé API Together.ai</label>
+        <input type="password" id="together-key" placeholder="together-..." autocomplete="off">
+        <p class="info-text" style="font-size: 12px; margin-top: 6px; color: var(--text-secondary);">
+          Obtenez votre clé sur <a href="https://api.together.xyz/settings/api-keys" target="_blank"
+            style="color: var(--primary-color);">api.together.xyz</a>
+        </p>
+      </div>
+
+      <div class="buttons-group">
+        <button id="save-btn" class="btn btn-primary">Enregistrer</button>
+      </div>
+
+      <div id="status" class="status"></div>
     </div>
-    
-    <div class="info-box">
-      <h3 style="margin-top: 0; color: var(--lucid-blue-primary);">Note sur les limites de l'API</h3>
-      <p>Si vous rencontrez des erreurs 429 (Too Many Requests), cela peut être dû à:</p>
-      <ul>
-        <li>Un dépassement de votre limite de requêtes par minute</li>
-        <li>Un solde insuffisant sur votre compte API</li>
-        <li>Un problème avec votre clé API</li>
-      </ul>
-      <p>Veuillez vérifier votre utilisation et vos informations de facturation sur le site du fournisseur d'API correspondant.</p>
+
+    <div class="option-card" style="margin-top: 24px;">
+      <h3 style="margin-top:0; font-size: 16px;">À propos</h3>
+      <p style="font-size: 13px;">
+        LucidSelect est une extension open-source pour améliorer votre productivité.
+        <br>
+        Version: 1.1
+      </p>
     </div>
   </div>
-  
+
   <script src="options.js"></script>
 </body>
+
 </html>

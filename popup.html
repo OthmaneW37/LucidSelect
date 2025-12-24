@@ -4,37 +4,60 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LucidSelect</title>
-  <link rel="stylesheet" href="styles/improved-ui.css">
-  <style>
-    body {
-      width: 380px;
-      margin: 0;
-      padding: 0;
-    }
-    
-    .popup-container {
-      padding: 16px;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="popup-container">
-    <h1><img src="images/icon48.png" alt="LucidSelect">LucidSelect</h1>
+    <header>
+      <h1><img src="images/icon48.png" alt="LucidSelect"> LucidSelect</h1>
+      <button id="open-options" class="btn-link" title="Paramètres">⚙️</button>
+    </header>
     
-    <p>Sélectionnez du texte sur n'importe quelle page web et posez une question à l'IA.</p>
-    
-    <ol class="steps">
-      <li>Sélectionnez du texte sur une page web</li>
-      <li>Cliquez-droit et choisissez "Question à l'IA" ou utilisez le raccourci <span class="shortcut-key">Alt+L</span> pour répondre directement</li>
-      <li>Saisissez votre question dans la popup (si nécessaire)</li>
-      <li>La réponse s'affichera dans une bulle au-dessus du texte sélectionné</li>
-    </ol>
-    
-    <div id="api-status" class="api-status">
-      Vérification de la clé API...
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="home">Accueil</button>
+      <button class="tab-btn" data-tab="history">Historique</button>
     </div>
     
-    <a href="#" id="options-link" class="options-link">Configurer la clé API</a>
+    <!-- Home View -->
+    <div id="home-view" class="view active">
+      <p style="text-align: center; margin-bottom: 24px;">
+        Votre assistant IA contextuel pour le web.
+      </p>
+      
+      <div class="option-card">
+        <h3 style="margin-top:0; font-size:15px;">Comment utiliser ?</h3>
+        <ol class="steps">
+          <li>Surlignez du texte sur une page</li>
+          <li>Clic-droit → <strong>LucidSelect</strong></li>
+          <li>Choisissez une action</li>
+        </ol>
+        <p style="font-size: 12px; margin-bottom: 0;">
+          <span style="display:block; margin-bottom:4px;">Raccourcis :</span>
+          <span class="shortcut-key">Alt+L</span> Répondre directement
+        </p>
+      </div>
+      
+      <div id="api-status-container" class="api-status-banner">
+        <span id="api-status-text">Vérification...</span>
+        <div id="api-status-dot" class="status-dot"></div>
+      </div>
+    </div>
+    
+    <!-- History View -->
+    <div id="history-view" class="view">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <h3 style="margin:0; font-size: 15px;">Dernières requêtes</h3>
+        <button id="clear-history" class="btn-link" style="font-size: 12px; color: var(--error-color);">Effacer</button>
+      </div>
+      
+      <div id="history-list" class="history-list">
+        <!-- History items will be injected here -->
+        <div class="empty-state">
+          Chargement...
+        </div>
+      </div>
+    </div>
+
   </div>
   
   <script src="popup.js"></script>
