@@ -7,7 +7,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
-  
+
   return {
     // Points d'entrée multiples pour le code splitting
     entry: {
@@ -15,7 +15,7 @@ module.exports = (env, argv) => {
       content: './content.js',
       'chatgpt-inject': './chatgpt-inject.js',
       options: './pages/options.js',
-      popup: './popup/popup.js',
+      popup: './popup.js',
       'utils/constants': './utils/constants.js',
       'utils/history': './utils/history.js',
       'utils/custom-prompts': './utils/custom-prompts.js',
@@ -148,21 +148,23 @@ module.exports = (env, argv) => {
     plugins: [
       // Nettoyer le dossier de sortie avant chaque build
       new CleanWebpackPlugin(),
-      
+
       // Extraire le CSS dans des fichiers séparés
       new MiniCssExtractPlugin({
         filename: 'styles/[name].css',
         chunkFilename: 'styles/[name].chunk.css',
       }),
-      
+
       // Copier les fichiers statiques
       new CopyPlugin({
         patterns: [
           { from: 'manifest.json', to: '' },
           { from: 'images', to: 'images' },
           { from: 'pages/*.html', to: 'pages/[name][ext]' },
-          { from: 'popup/*.html', to: 'popup/[name][ext]' },
+          { from: 'popup.html', to: '' },
+          { from: 'options.html', to: '' },
           { from: 'content-styles.css', to: '' },
+          { from: 'styles.css', to: '' },
         ],
       }),
     ],

@@ -9,7 +9,11 @@
     "analyze": "webpack --mode=production --analyze",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "jest"
+    "lint:check": "eslint . --max-warnings 0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "jest",
+    "prepare": "npm run build"
   },
   "keywords": [
     "extension",
@@ -23,6 +27,14 @@
   ],
   "author": "LucidSelect Team",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OthmaneW37/LucidSelect.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OthmaneW37/LucidSelect/issues"
+  },
+  "homepage": "https://github.com/OthmaneW37/LucidSelect#readme",
   "devDependencies": {
     "@babel/core": "^7.22.5",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
